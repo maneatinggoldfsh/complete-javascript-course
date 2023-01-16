@@ -1,0 +1,238 @@
+Section 02 - Fundamentals Part 1
+
+HTML=Content, CSS=Presentation, JS=Programing Language
+HTML=Nouns, CSS=Adjectives, JS=Verbs  <-- Good analogy
+
+ES5 = pre2015 --> ES6/ES2015 and beyond = considered modern JS
+
+Windows + . = emoji shortcut 😁
+
+Variable Naming
+    - Can not start with number
+    - Can contain letters, numbers, underscores and dollar sign ($)
+    - Can not be reserved keyword (new, function, ect)
+    - name is reserved but can be used, don't do this though
+    variable convention = camelCase (no underscores)
+    constant convention = UPPERCASE
+    OOP object convention = Capitalized
+
+COMMENTS
+    // = line comment    ------> Ctrl+/
+    /* */ = multiline comment -> Shift+Alt+A
+
+
+PRIMATIVES
+    1. Number: Floating point numbers - Used for decimals and integers
+    2. String: Sequence of characters - Used for text
+    3. Boolean: Logical type that can only be true or false - Used for taking decisions 
+    4. Undefined: Value taken by a variable that is not yet defined (‘empty value’)
+    5. Null: Also means ‘empty value’ - returns object for typeof
+    6. Symbol (ES2015): Value that is unique and cannot be changed [Not useful for now]
+    7. BigInt (ES2020): Larger integers than the Number type can hold
+
+TYPEOF
+    typeof = used to find the type of primative
+    console.log(typeof 1234); = number
+
+VARIABLE DECLARATIONS
+    let = allows declaration and reassignment - block scoped (mutable)
+    const = initally must be declared with value then can not be reassigned (immutable)
+    var = pre-ES6 - works like let - funtion scoped (mutable)
+    not declared - will make parameter on global scope, do not do this
+
+OPERATORS
+    (-, +, *, /) - basic math
+    % - mod - returns remained
+    ** - exponentiation - 2 ** 3 = 2 to the power of three
+    + = can concat strings
+    typeof = gives type of value
+    = - equals operator
+    += , -= , *= , /= - assignment operators
+    ++ , -- = incremental operators (assignment ops)
+    > , < , >= , <= , == , === - comparison operators - returns bool
+
+OPERATOR PRECEDENCE
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+
+    Precedence order - highest to lowest value on MDN
+        - some ops occur right-to-left
+
+STRINGS AND TEMPLATE LITERALS
+    template literals use backtick ` instead of quotation or double quotation
+        const testVar = "test";
+        const test = `This is a ${testVar}!` => "This is a test!"
+    backticks can be used for multiline strings!
+
+IF/ELSE
+    if statement with else - called a control structure
+        if (x) {
+            //do stuff
+        } else {
+            //else do other stuff
+        }
+
+    if statement with ifelse and else
+        if (x) {
+            //do stuff
+        } else if (y) {
+            //else if y, do other stuff
+        } else {
+            //else, do other stuff
+        }
+
+TYPE CONVERSION AND TYPE COERCION
+    type conversion - use conversion funtion such as Number('1234') to convert data type
+    type coercion - automatically coerce type ex: console.log('this is a string : ' + 123)
+
+TRUTHY AND FALSY VALUES
+    5 falsy values: 0, '', undefined, null, NaN
+
+EQUALITY OPERATORS
+    == or === , != or !==
+    === strict equality - does not do type coercion - always use unless specifically need loose
+    == loose equality - will do type coercion
+    !== strict nonequality
+    != loose nonequality
+
+BOOLEAN LOGIC
+    Logical Operators
+        AND (&&) = both conditions must be true - (a && b)
+        OR (||) = either condition must be true - (a || b)
+        NOT (!) = inverts boolean value - (!a)
+
+    NOT has precedence over AND and OR operators
+
+SWITCH STATEMENTS
+    Switches between codeblocks based on input. Does a strict comparison (===). Needs break at end of cases.
+        const animal = "dog"
+        switch(animal) {
+            case "cat":
+                console.log("It's a cat!");
+                break;
+            case "dog":
+                console.log("It's a dog!");
+                break;
+            default:
+                console.log("It's neither a cat or dog!");
+        }
+
+STATEMENTS AND EXPRESSIONS
+    expressions produce a value.
+    statements is a larger block of code that does not produce a value.
+
+CONDITIONAL (TERNARY) OPERATOR
+    Much like an if else statement, but is an expression and produces a value;
+    Can be used in template literals.
+
+    Written as follows (condition ? then : else)
+        //EXAMPLE
+        const age = 23
+        const drink = age >= 18 ? 'Wine" : "Water; // will equal Wine
+
+JS RELEASES - ES5, ES6, ESNEXT
+    JS release do not remove features - keep the web alive forever
+    Use transpile and polyfill to convert back to ES5 on deployment (Babel)
+
+ACTIVATING STRICT MODE
+    'use strict';
+    Add to first line of JS file.
+
+FUNCTIONS
+    Function Declaration - As below, declared with name
+        function funcName (parameter) {
+            //funcBody
+            const returnValue = parameter + " returned";
+            return returnValue;
+        }
+        const returnedVal = funcName('argument');
+
+    
+    Function Expression -  As below, declared in to a variable
+    Must be initialized before being called.
+        const funcExpression = function () {
+            return "I'm a function expression!";
+        }
+
+    Arrow Function - As below, "this" keyword does not work the same as with declared functions.
+        const arrowFunc = myParameter => `return value: ${myParameter}`
+
+ARRAYS
+    Declare array as below:
+        const myArray = ["abc", "def", "ghi"]; //literal declaration
+        const years = new Array(1991, 2002, 1989, 2030); //functional declaration
+
+    Can store any type of value. 0 indexed. Get value as below:
+        const firstValue = myArray[0];
+
+    Array.length gives length of array. Is not zero based so ["abc", "def"] => array.length() = 2
+    Array.push will push a value to the end of an array. Returns length of new array.
+    Array.unshift will add a value to the beginning of the array. Returns new length.
+    Array.pop will remove the last element in the array. Returns the removed value.
+    Array.shift() will remove the first element in the array. Returns the removed value.
+    Array.indexOf() will give index (zero based) of the same value. Returns -1 if not found, returns index if found.
+    Array.includes() will give a bool of true if found, false if not found. This uses strict equality.
+
+OBJECTS
+    Contains key:value pairs, seperated by commas.
+        Object Literal:
+            const myObject = {
+                key: "value",
+                myNumber: 222,
+                myArray: ['a', 'b']
+            }
+
+    DOT VS BRACKETS - Member Access VS Computer Member Access
+        dot notation will access values stored at the key that matches.
+        Bracket will work the same, but allow for expressions in the brackets.
+        Function expressions can be added as well. Called method.
+            const val1 = myObject.myNumber;
+            const val2 = myObject['my'+'Number']; //val1 === val2
+
+        From within an object, it's keys can be accessed with this keyword.
+            const myObject = {
+                myNumber: 222,
+                myArray: ['a', 'b'],
+                dblMyNumber: this.myNumber * 2
+            }
+
+LOOPS
+    for loop - contains 3 parts in declaration (initialization, condition, post-loop code) -iterates while condition is true
+        continue - keyword to end the current iteration of the loop
+        break - keyword to end the loop completely    
+            
+            for(let iterator = 1; iterator <= 10; iterator++){
+                console.log(`count to 10 : ${iterator}/10`)
+            }
+
+    while loop - runs while condition is true. does not need an iterator. can use any condition
+        let rolledDice = 0;
+        while (rolledDice !== 6) {
+            rolledDice = Math.floor((Math.random() * 6)+1);
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
