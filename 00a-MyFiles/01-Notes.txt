@@ -209,26 +209,160 @@ LOOPS
         while (rolledDice !== 6) {
             rolledDice = Math.floor((Math.random() * 6)+1);
         }
+
+=====================================================================================================================================
+    JAVASCRIPT BEHIND THE SCENES
+=====================================================================================================================================
+JavaScript is: High Level, Prototype Based, Object Oriented, Multi-Paradigm, Interpreted or Just-In-Time, Dynamic, Single Threaded, Garbage Collected
+         With: First-Class Functions, Non-Blocking Event Loop Concurrency Model
+
+JavaScript Engine = Where js code is executed. Browsers have their own engines. Googles V8 engine powers chrome, node, deno, electron and others.
+    Engines have callstack and heap.
+        callstack = where code is executed
+        heap = where data is stored (variables, ect)
+
+    Compilation = written to machine code at compilation time
+    Interpretation = read and executed line by line, right before executed
+    JIT (Just In Time) = converted to machine code just before execution
+
+    Parsing => AST (Abstract Syntax Tree) => Compilation => Execution (in callstack)
+    Continuous compilation and optimization during execution
+
+Javascript Runtime (for Browser) - Engine, Web API, Callback Queue
+    callback queue = callbacks are stored in queue. Once call stack is empty, callbacks are added to call stack (event loop)
+    Some runtimes (node) will have C++ bindings and thread pool instead of web api. Use case dependant.
+
+Execution context: Environment in which a piece of js code is executed. stores all necessary info for code to be executed. Scoped
+    Top level code = uses global execution context = only ever one
+    New execution contexts created for functions (all of these layered is the callstack)
+
+    What's in an execution context?
+            - Variable environment = let, const and var declarations
+            - Functions
+            - Argument objects
+            - Scope Chain
+            - 'this' Keyword
+        Arrow functions do not get 'this' keyword or arguments object
+    Call stack = stores function call variable environment/exectution context => first in, last out
+
+Scope and Scope Chain
+    Scope = how program variables or organized and accessed = where can variables be accessed
+    Scope is the space/environment in which a variable is declared
+        Lexical scoping = scoping is controlled by placement of functions and blocks in the code
+        - Global scope - outside of any function/block. Accessible everywhere
+        - Funciton scope - declared in function, only accessible inside of function. aka local scope.
+        - Block scope - inside code block (inside curly braces) such as if statement or for loop.
+            let uses block scope. functions are block scope if strict mode is used.
+    Scope chain = Scopes look up the chain to find variables. All inner scopes have access to parent scope.
+    Scope chain is not affected by when/where functions are called. Only code as written decides scoping.
+
+Hoisting
+    Hoisting makes some type of variables accessible in code before they are declared.
+        before execution, code is scanned for variable declarations, and add to variabe environment
+
+    function declarations - hoisted - initial value = actual function - block scope
+    var variables - hoisted - intial = undefined - Function scope
+    let and const - not hoisted - initial = <uninitialized>, TDZ - block scope
+    function expression/arrow - depends on var vs let/const
+
+Temporal Dead Zone (TDZ)
+    Variable is in TDZ when it is accessed before it's defined in code. Is not initalized when called. 
+
+This Keyword
+    this = created for each execution context (every function). takes the value of the "owner" of the function.
+    this is not static. Can change depending on how function is called.
+
+    method => this = object that is calling the method
+    simple function call => in strict = undefined, in loose = global
+    arrow function => this = surrounding function (lexical this)
+    event listener => this = dom element that the handler is arrached to
+    new, call, apply, bind => ????
     
+Primitives vs Objects (Value vs Reference)
+    Primitives = Number, String, Boolean, Undefined, Null, Symbol, BigInt
+    Objects = Everything else
+
+    In memory => Primitives = primitive types = stored in callstack, Objects = reference types = stored in heap
+    Primitives are passed as value. Points to memory address with value in stack.
+    Objects are passed of reference. Points to memory in stack (reference), which points to value in heap.
+
+    Object.assign(target, value) --- will copy objects. This does a shallow copy (only first level).
 
 
+=====================================================================================================================================
+    DATA STRUCTURES, MODERN OPERATORS AND STRINGS
+=====================================================================================================================================
+Destructuring Arrays
+    allows user to assign array values directly to variables. 
+        let arr = [1,2,3];
+        let [a,b,c] = arr; //a=1, b=2, c=3
 
+    can be used with multidimensional arrays.
+        let arr = [1,2,[3,4]];
+        let [a,b,[c,d]] = arr; //a=1, b=2, c=3, d=4
 
+    default values can also be set
+        let arr = [1,2];
+        let [a=x,b=x,c=x] = arr; //a=1, b=2, c="x"
 
+    skip values
+        let arr = [1,2,3];
+        let [a, ,b] = arr; //a=1, b=3
 
+Destructuring Objects
+    Objects can be destructured by providing property/key names. Must be exact match to keys.
+        const person {
+            name: "John",
+            age: 30,
+            family: {
+                mom: "Jane",
+                dad: "Alan"
+            }
+        }
+        const {name} = person; // name="John"
 
+    Aliases can also be provided
+        const {name: firstName,
+               age: ageInYears} = person; // firstName="John", ageInYears=30
 
+    default values can also be provided
+        const {lastName = "Doe"} = person; // lastName="Doe"
+    
+    mutate existing variables. must be wrapped in parenthesis.
+        let name = "Willy"
+        ({name} = person); // name="John"
 
+    nested objects
+        const {family: {mom, dad}} = person; // mom="Jane", dad="Alan"
+    
+    destructuring parameters/arguments. Passed args do not have to be in order.
+    Must be correct keys. Default values can be used.
+        const function testOne ({first, second, third}) {
+            console.log(`${first} is first, ${second} is second, ${third} is third`)
+        }
+        testOne({
+            third: "Blue",
+            first: "Yellow",
+            second: "Green"
+        })
 
+The Spread Operator (...)
+    Spread operator goes on right side of assignment operator (= ...)
+    Spread operator deconstructs array in to individual elements seperated by a comma.
+    Also works with other iterables : arrays, strings, maps, sets. (can still be used on objects).
+        Adding array to new array
+            const arr = [5,6,7];
+            const newArr = [1,2, ...arr]; //newArr = [1,2,5,6,7]
+        Copy Array
+            const arrCopy = [...arr]
+        Join 2 arrays
+            const arrJoin = [...arr, ...arrCopy]
 
-
-
-
-
-
-
-
-
+Rest Pattern and Patterns
+    Rest operator goes on left side of assignment operator (... =)
+    Takes rest of array elements and puts them in an array.
+        const arr = [1,2,3,4,5,6];
+        const newArr = [a,b,c, ...others] // a=1, b=2, c=3, others=[4,5,6]
 
 
 
