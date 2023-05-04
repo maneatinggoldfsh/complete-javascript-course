@@ -363,10 +363,3 @@ Rest Pattern and Patterns
     Takes rest of array elements and puts them in an array.
         const arr = [1,2,3,4,5,6];
         const newArr = [a,b,c, ...others] // a=1, b=2, c=3, others=[4,5,6]
-
-
-
-
-
-
-
