@@ -360,6 +360,89 @@ The Spread Operator (...)
 
 Rest Pattern and Patterns
     Rest operator goes on left side of assignment operator (... =)
+    Rest operator must be last in destructuring. Only one per destructuring argument.
     Takes rest of array elements and puts them in an array.
         const arr = [1,2,3,4,5,6];
-        const newArr = [a,b,c, ...others] // a=1, b=2, c=3, others=[4,5,6]
+        const [a,b,c, ...others] = arr // a=1, b=2, c=3, others=[4,5,6]
+    Can be used to take in multiple variables in to one array (functions, ect)
+        const add = function (...numbers){
+            let sum = 0;
+            for (let i=0; i<numbers.length; i++){
+                sum+=numbers[i]
+            }
+            console.log(sum); //
+        }
+        add(2,3) //5
+        add(5, 3, 7, 2) //17
+    Can be used to pass an array as individual parameters
+        const x = [23, 5, 7];
+        add(...x); //35
+
+Short Circuiting (&& and ||)
+    with '||' short circuiting it will return the first value if truthy, otherwise it will return the second
+    Useful for using a default value for a returned value
+        console.log(3 || 'John') //3
+        console.log('' || 'John') //John
+        console.log(undefined || null) //null (both are falsey, so returns 2nd)
+    with '&&' short circuiting it will return the first value if falsey, otherwise it will return the second
+        console.log(3 || 'John') //John
+        console.log('' || 'John') //''
+        console.log(undefined || null) //undefined (both are falsey, so returns 1st)
+
+Nullish Coalescing Operator (??)
+    with '??' short circuiting it will return the first value if it is non-nullish, otherwise it will return the second
+        console.log(3 || 'John') //3
+        console.log('' || 'John') //'' ('' is not nullish)
+        console.log(undefined || null) //null (both are nullish, so returns 2nd)
+
+Logical Assignment Operators
+    '||=' can be used to assign a value with '||' style short circuiting
+        const person1 {
+            name: 'Bob',
+            job: 'Builder'
+        }
+        person1.name ||= 'John' //'Bob' (Bob is truthy, would be reassign 'John' if non existant or falsey)
+    '??=' can be used to assign a value with '??' style short circuiting
+        const person1 {
+            job: 'Builder'
+        }
+        person1.name ??= 'John' //'John' (parameter is missing, so nullish)
+    '&&=' can be used to assign a value with '&&' style short circuiting
+        const person1 {
+            name: 'Bob',
+            job: 'Builder'
+        }
+        person1.name &&= 'ANONYMOUS' //'ANONYMOUS' (person1.name is truthy, so we assign 2nd value)
+
+Looping Arrays: The for-of Loop
+    Allows you to loop over an array for each element
+        for (const element of array){
+            console.log(element); //'whatever is in the element'
+        }
+    The entries() method gives an array for each element with the [index, element] of an array.
+        for (const element of array.entries()){
+            console.log(element); //[0, 'whatever is in the element']
+        }
+
+Enhanced Object Literals
+    Objects can be added to objects by their variable names (if declared outside the object) in to other objects. No need to do "property: object", just "object".
+    Functions can be added to objects without "propertyName: function(){}" and can instead be added as "propertyName(){}"
+    Property names can be computer as "[`some sort of expression`]: element"
+
+Optional Chaining (?.)
+    Adds conditional chaining. If previous property/method in chain is null/undefined, will not error. Will return undefined.
+    Use nullish coalescing operator to give default value if optional chaining returns undefined.
+    Can also be used on arrays. example: console.log(user[0]?.name ?? 'User does not have a name');
+
+Looping Objects: Object Keys, Values and entries
+    Object.keys(object) will return an array of keys in an object.
+    Object.values(object) will return an array of values in an object.
+    Object.entries(object) will return an array of entries [key, value] in an object.
+
+
+
+
+
+
+
+
